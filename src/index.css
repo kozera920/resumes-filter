@@ -11,3 +11,44 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#profile-dropdown img{
+  height: 30px;
+  width: auto;
+  border-radius: 50%;
+}
+
+#profile-dropdown .username{
+  color: #000;
+  font-size: 14px;
+  padding: 4px 10px;
+}
+
+#lang-dropdown{
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 20px;
+}
+#lang-dropdown .lang{
+  color: #000;
+  font-size: 14px;
+  padding: 4px 10px;
+}
+.logo{
+  height: 50px;
+  width: auto;
+}
+.menu a{
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  font-weight: 600;
+}
+.menu a.active{
+  border: 1px solid #ADAEAF;
+  border-radius: 20px;
+  color: #6E00FF !important;
+}
+.accordion-button:not(.collapsed) { 
+  background-color: transparent; 
+}
+.nav-link { 
+  padding: 5px 5px; 
+}
