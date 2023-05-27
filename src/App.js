@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Form, FormGroup } from 'react-bootstrap';
-import { DataGrid,GridToolbar } from '@material-ui/data-grid';
+import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import Select from 'react-select';
 import Accordion from 'react-bootstrap/Accordion';
 import Container from 'react-bootstrap/Container';
@@ -124,7 +124,7 @@ const JobApplicants = () => {
   const columns = [
     { field: 'fullName', headerName: 'Full Name', width: 150 },
     { field: 'email', headerName: 'Email', width: 200 },
-    { field: 'age', headerName: 'Age', width: 80 },
+    { field: 'age', headerName: 'Age', width: 120 },
     { field: 'phoneNumber', headerName: 'Phone Number', width: 150 },
     { field: 'position', headerName: 'Position', width: 150 },
     { field: 'language', headerName: 'Language', width: 150 },
@@ -173,9 +173,9 @@ const JobApplicants = () => {
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="light">
-        <Container fluid="xxl">
+        <Container fluid >
           <Navbar.Brand href="#home">
-            <img src={logo} className='logo' alt='logo'/>
+            <img src={logo} className='logo' alt='logo' />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -185,7 +185,7 @@ const JobApplicants = () => {
               <Nav.Link href="#">Posistions</Nav.Link>
             </Nav>
             <Nav>
-              <NavDropdown title={<><img src={avatar} alt='avatar'/> <span className='username'>John Doe</span></>} id="profile-dropdown">
+              <NavDropdown title={<><img src={avatar} alt='avatar' /> <span className='username'>John Doe</span></>} id="profile-dropdown">
                 <NavDropdown.Item href="#">Profile</NavDropdown.Item>
                 <NavDropdown.Item href="#">Settings</NavDropdown.Item>
                 <NavDropdown.Divider />
@@ -201,7 +201,7 @@ const JobApplicants = () => {
       </Navbar>
 
       <section className='pt-5'>
-        <Container>
+        <Container fluid >
           <Row>
             <Col sm={3}>
               <div className="row mb-3">
@@ -210,7 +210,7 @@ const JobApplicants = () => {
                 </div>
                 <div className="col-6">
                   <Button variant="outline-primary" className="outline-primary w-100" onClick={handleResetFilters}>
-                  <i class='bx bx-trash me-2'></i>
+                    <i class='bx bx-trash me-2'></i>
                     Clear Filter</Button>
                 </div>
               </div>
@@ -223,17 +223,20 @@ const JobApplicants = () => {
                     <Accordion.Header>Position</Accordion.Header>
                     <Accordion.Body>
                       <div>
-                        <FormGroup>
-                          {positions.map((item) => (
+
+                        {positions.map((item,index) => (
+                          <FormGroup controlId={"pos-"+index}>
                             <Form.Check
+                              controlId="formBasicCheckbox"
                               type="checkbox"
                               label={item.name}
                               name="positions"
                               value={item.name}
                               onChange={handleFilterChange}
                             />
-                          ))}
-                        </FormGroup>
+                          </FormGroup>
+                        ))}
+
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -262,8 +265,9 @@ const JobApplicants = () => {
                     <Accordion.Header>Experience</Accordion.Header>
                     <Accordion.Body>
                       <div>
-                        <FormGroup>
-                          {[5, 4, 3, 2, 1].map((item) => (
+                        
+                          {[5].map((item,index) => (
+                            <FormGroup controlId={"exp-"+index}>
                             <Form.Check
                               type="checkbox"
                               label={item + "+ years of experience"}
@@ -271,9 +275,10 @@ const JobApplicants = () => {
                               checked={filters.experience}
                               onChange={handleFilterChange}
                             />
+                             </FormGroup> 
                           ))}
 
-                        </FormGroup>
+                      
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -331,7 +336,7 @@ const JobApplicants = () => {
                       onSearchChange: handleSearchChange,
                     },
                   }}
-                  
+
                 />
               </div>
             </Col>

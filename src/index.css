@@ -52,3 +52,10 @@ code {
 .nav-link { 
   padding: 5px 5px; 
 }
+.MuiButton-textPrimary {
+  color: #6E00FF !important;
+}
+.css-12a83d4-MultiValueRemove{
+  background-color: #6E00FF !important;
+  color:#ffffff;
+}
