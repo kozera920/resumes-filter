@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/resumes-filter/static/css/main.b4365253.css",
+    "main.js": "/resumes-filter/static/js/main.a79d121b.js",
+    "static/media/avatar.png": "/resumes-filter/static/media/avatar.adef484da1695b9ba6c6.png",
+    "index.html": "/resumes-filter/index.html",
+    "main.b4365253.css.map": "/resumes-filter/static/css/main.b4365253.css.map",
+    "main.a79d121b.js.map": "/resumes-filter/static/js/main.a79d121b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b4365253.css",
+    "static/js/main.a79d121b.js"
+  ]
+}
