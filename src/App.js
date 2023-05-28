@@ -224,8 +224,8 @@ const JobApplicants = () => {
                     <Accordion.Body>
                       <div>
 
-                        {positions.map((item,index) => (
-                          <FormGroup controlId={"pos-"+index}>
+                        {positions.map((item, index) => (
+                          <FormGroup controlId={"pos-" + index}>
                             <Form.Check
                               controlId="formBasicCheckbox"
                               type="checkbox"
@@ -265,9 +265,18 @@ const JobApplicants = () => {
                     <Accordion.Header>Experience</Accordion.Header>
                     <Accordion.Body>
                       <div>
-                        
-                          {[5].map((item,index) => (
-                            <FormGroup controlId={"exp-"+index}>
+                        <FormGroup controlId={"exp-all"}>
+                          <Form.Check
+                            type="checkbox"
+                            label={"All"}
+                            defaultValue={"0"}
+                            name="experience"
+                            // checked={filters.experience}
+                            onChange={handleFilterChange}
+                          />
+                        </FormGroup>
+                        {[5].map((item, index) => (
+                          <FormGroup controlId={"exp-" + index}>
                             <Form.Check
                               type="checkbox"
                               label={item + "+ years of experience"}
@@ -275,10 +284,10 @@ const JobApplicants = () => {
                               checked={filters.experience}
                               onChange={handleFilterChange}
                             />
-                             </FormGroup> 
-                          ))}
+                          </FormGroup>
+                        ))}
 
-                      
+
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
