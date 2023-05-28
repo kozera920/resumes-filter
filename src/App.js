@@ -17,6 +17,9 @@ const JobApplicants = () => {
     positions: [],
     languages: [],
     experience: false,
+    experienceUnder5: false,
+    experience5Plus: false,
+    selectAllExperience: [],
     minSalary: '',
     maxSalary: '',
   };
@@ -53,12 +56,32 @@ const JobApplicants = () => {
 
   const handleFilterChange = (event) => {
     const { name, value, type, checked } = event.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: type === 'checkbox' ? (name === 'experience' ? checked : getUpdatedCheckboxValue(prevFilters[name], value, checked)) : value,
-    }));
+    if (type === 'checkbox') {
+      if (name === 'experience') {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          experience: checked,
+        }));
+      } else if (name === 'experienceUnder5') {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          experienceUnder5: checked,
+          selectAllExperience: checked ? ['experienceUnder5', 'experience5Plus'] : [],
+        }));
+      } else if (name === 'experience5Plus') {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          experience5Plus: checked,
+          selectAllExperience: checked ? ['experienceUnder5', 'experience5Plus'] : [],
+        }));
+      }
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: value,
+      }));
+    }
   };
-
   const handleSearchChange = (event) => { // Handle search field change
     const { value } = event.target;
     setFilters((prevFilters) => ({
@@ -80,36 +103,49 @@ const JobApplicants = () => {
   };
 
   const filteredApplicants = applicants.filter((applicant) => {
-    const { positions, languages, experience, minSalary, maxSalary, search } = filters; // Add search to destructuring
+    const { positions, languages, experience, experienceUnder5, experience5Plus, minSalary, maxSalary, search, selectAllExperience } = filters;
+  
     if (positions.length > 0 && !positions.includes(applicant.position)) {
       return false;
     }
-
+  
     if (
       languages.length > 0 &&
       !languages.some((selectedLanguage) =>
         applicant.language.split(',').map(lang => lang.trim()).includes(selectedLanguage.value)
-
       )
     ) {
       return false;
     }
-    if (experience && parseInt(applicant.experience) < 5) {
-      return false;
+  
+    if (selectAllExperience.length === 0) {
+      if (experience && parseInt(applicant.experience) < 5) {
+        return false;
+      }
+  
+      if (experienceUnder5 && parseInt(applicant.experience) >= 5) {
+        return false;
+      }
+  
+      if (experience5Plus && parseInt(applicant.experience) < 5) {
+        return false;
+      }
     }
+  
     if (
       minSalary !== '' &&
       parseInt(applicant.salary) < parseInt(minSalary)
     ) {
       return false;
     }
+  
     if (
       maxSalary !== '' &&
       parseInt(applicant.salary) > parseInt(maxSalary)
     ) {
       return false;
     }
-
+  
     if (
       search &&
       !applicant.fullName.toLowerCase().includes(search.toLowerCase()) && // Filter by full name
@@ -117,6 +153,7 @@ const JobApplicants = () => {
     ) {
       return false;
     }
+  
     return true;
   });
 
@@ -265,29 +302,33 @@ const JobApplicants = () => {
                     <Accordion.Header>Experience</Accordion.Header>
                     <Accordion.Body>
                       <div>
-                        <FormGroup controlId={"exp-all"}>
+                        <FormGroup controlId="selectAllExperience">
                           <Form.Check
                             type="checkbox"
-                            label={"All"}
-                            defaultValue={"0"}
-                            name="experience"
-                            // checked={filters.experience}
+                            label="Select All"
+                            name="selectAllExperience"
+                            checked={filters.selectAllExperience.length === 2}
                             onChange={handleFilterChange}
                           />
                         </FormGroup>
-                        {[5].map((item, index) => (
-                          <FormGroup controlId={"exp-" + index}>
-                            <Form.Check
-                              type="checkbox"
-                              label={item + "+ years of experience"}
-                              name="experience"
-                              checked={filters.experience}
-                              onChange={handleFilterChange}
-                            />
-                          </FormGroup>
-                        ))}
-
-
+                        <FormGroup controlId="experienceUnder5">
+                          <Form.Check
+                            type="checkbox"
+                            label="Under 5 years of experience"
+                            name="experienceUnder5"
+                            checked={filters.experienceUnder5}
+                            onChange={handleFilterChange}
+                          />
+                        </FormGroup>
+                        <FormGroup controlId="experience5Plus">
+                          <Form.Check
+                            type="checkbox"
+                            label="5+ years of experience"
+                            name="experience5Plus"
+                            checked={filters.experience5Plus}
+                            onChange={handleFilterChange}
+                          />
+                        </FormGroup>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
