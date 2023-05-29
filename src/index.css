@@ -59,3 +59,14 @@ code {
   background-color: #6E00FF !important;
   color:#ffffff;
 }
+.circled{
+  border-radius: 50%;
+}
+.search .input-group-text{
+  background-color: transparent;
+}
+.filter-btn{
+  border: none;
+border-bottom: 2px solid #6E00FF;
+border-radius: 0px;
+}
