@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/resumes-filter/static/css/main.67db124e.css",
-    "main.js": "/resumes-filter/static/js/main.5729621e.js",
+    "main.css": "/resumes-filter/static/css/main.494e6f9d.css",
+    "main.js": "/resumes-filter/static/js/main.f556a711.js",
     "static/media/avatar.png": "/resumes-filter/static/media/avatar.adef484da1695b9ba6c6.png",
     "index.html": "/resumes-filter/index.html",
-    "main.67db124e.css.map": "/resumes-filter/static/css/main.67db124e.css.map",
-    "main.5729621e.js.map": "/resumes-filter/static/js/main.5729621e.js.map"
+    "main.494e6f9d.css.map": "/resumes-filter/static/css/main.494e6f9d.css.map",
+    "main.f556a711.js.map": "/resumes-filter/static/js/main.f556a711.js.map"
   },
   "entrypoints": [
-    "static/css/main.67db124e.css",
-    "static/js/main.5729621e.js"
+    "static/css/main.494e6f9d.css",
+    "static/js/main.f556a711.js"
   ]
 }
