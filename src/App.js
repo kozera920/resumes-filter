@@ -12,17 +12,16 @@ import avatar from "./images/avatar.png";
 import logo from "./images/logo.png";
 import united_kingdom from "./images/united-kingdom.png";
 import united_state from "./images/united-states.png";
-
+import $ from "jquery";
 import InputGroup from 'react-bootstrap/InputGroup';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const JobApplicants = () => {
 
   const initialFilters = {
     positions: [],
     languages: [],
-    experience: false,
-    experienceUnder5: false,
-    experience5Plus: false,
+    experience: [],
     selectAllExperience: [],
     minSalary: '',
     maxSalary: '',
@@ -36,7 +35,7 @@ const JobApplicants = () => {
       position: 'Software Engineer',
       language: 'JavaScript',
       salary: 100000,
-      experience: '5 years',
+      experience: 'Entry Level',
       workType: 'Full-time',
     },
     {
@@ -47,36 +46,38 @@ const JobApplicants = () => {
       position: 'UI/UX Designer',
       language: 'HTML, CSS, JavaScript',
       salary: 80000,
-      experience: '3 years',
+      experience: 'Internship',
       workType: 'Part-time',
     },
     // Add more example data here
   ]);
-
+  const experiencesList = [
+   { name:"Entry Level"},
+    {name:"Internship"},
+    {name:"Associate"},
+    {name:"Mid-Senior"},
+    {name:"Contract"},
+   { name:"Director"},
+   { name:"Executive"},
+    {name:"Senior"},
+    {name:"Junior"}];
 
   const [filters, setFilters] = useState(initialFilters);
+  const [hideSidebar, setHideSidebar] = useState(false);
 
   const handleFilterChange = (event) => {
     const { name, value, type, checked } = event.target;
     if (type === 'checkbox') {
       if (name === 'experience') {
-        setFilters((prevFilters) => ({
-          ...prevFilters,
-          experience: checked,
-        }));
-      } else if (name === 'experienceUnder5') {
-        setFilters((prevFilters) => ({
-          ...prevFilters,
-          experienceUnder5: checked,
-          selectAllExperience: checked ? ['experienceUnder5', 'experience5Plus'] : [],
-        }));
-      } else if (name === 'experience5Plus') {
-        setFilters((prevFilters) => ({
-          ...prevFilters,
-          experience5Plus: checked,
-          selectAllExperience: checked ? ['experienceUnder5', 'experience5Plus'] : [],
-        }));
-      } else if (name === 'positions') {
+        const updatedPositions = checked
+        ? [...filters.experience, value]
+        : filters.experience.filter((experience) => experience !== value);
+
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        experience: updatedPositions,
+      }));
+    } else if (name === 'positions') {
         // Get the updated positions array based on the checkbox status
         const updatedPositions = checked
           ? [...filters.positions, value]
@@ -94,6 +95,7 @@ const JobApplicants = () => {
       }));
     }
   };
+
 
   const handleSearchChange = (event) => { // Handle search field change
     const { value } = event.target;
@@ -143,19 +145,10 @@ const JobApplicants = () => {
       return false;
     }
 
-    if (selectAllExperience.length === 0) {
-      if (experience && parseInt(applicant.experience) < 5) {
-        return false;
-      }
-
-      if (experienceUnder5 && parseInt(applicant.experience) >= 5) {
-        return false;
-      }
-
-      if (experience5Plus && parseInt(applicant.experience) < 5) {
-        return false;
-      }
+    if (experience.length > 0 && !experience.includes(applicant.experience)) {
+      return false;
     }
+
 
     if (
       minSalary !== '' &&
@@ -193,7 +186,7 @@ const JobApplicants = () => {
             <img src={avatar} className='img-fluid circled' />
           </div>
           <div className="col">
-            <span style={{ fontSize: "17px" }}>{params.value.name}</span><br />
+            <span className='black-text' style={{ fontSize: "17px" }}>{params.value.name}</span><br />
             <small className='text-secondary'>{params.value.email}</small>
           </div>
         </div>
@@ -201,29 +194,30 @@ const JobApplicants = () => {
       )
     },
     { field: 'age', headerName: 'Age', width: 120 },
-    { field: 'phoneNumber', headerName: 'Phone Number', width: 200,
-  renderCell: (params) => (
+    {
+      field: 'phoneNumber', headerName: 'Phone Number', width: 200,
+      renderCell: (params) => (
         <div style={{ lineHeight: "15px" }}>
-          <img src={united_state} className='circled me-2' style={{width:"15px"}}/>
-          <span>{params.value}</span> 
+          <img src={united_state} className='circled me-2' style={{ width: "15px" }} />
+          <span>{params.value}</span>
         </div>
 
       )
-  },
+    },
     { field: 'position', headerName: 'Position', width: 150 },
     { field: 'language', headerName: 'Language', width: 200 },
     {
       field: 'salary', headerName: 'Salary', width: 230,
       renderCell: (params) => (
         <div style={{ lineHeight: "15px" }}>
-          <span style={{ fontSize: "17px" }}>${number_format(params.value, 2)}/year</span><br />
+          <span className='black-text' style={{ fontSize: "17px" }}>${number_format(params.value, 2)}/year</span><br />
           <small className='text-secondary'>Average</small>
         </div>
 
       )
     },
-    { field: 'experience', headerName: 'Experience', width: 120 },
-    { field: 'workType', headerName: 'Work Type', width: 120 }];
+    { field: 'experience', headerName: 'Experience', width: 200 },
+    { field: 'workType', headerName: 'Work Type', width: 200 }];
 
   const languages = [
     {
@@ -261,6 +255,17 @@ const JobApplicants = () => {
     experience: applicant.experience,
     workType: applicant.workType,
   }));
+  const handleSelectAllExperience = (event) => {
+    const isChecked = event.target.checked;
+    const updatedSelectAllExperience = isChecked ? ['experienceUnder5', 'experience5Plus'] : [];
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      selectAllExperience: updatedSelectAllExperience,
+      experienceUnder5: isChecked,
+      experience5Plus: isChecked,
+    }));
+  };
   const defaultActiveKeys = ['0', '1', '2', '3'];
   return (
     <div>
@@ -284,8 +289,8 @@ const JobApplicants = () => {
                 <NavDropdown.Item href="#">Logout</NavDropdown.Item>
               </NavDropdown>
 
-              <NavDropdown title={<><span className='lang'>ENG</span></>} id="lang-dropdown">
-                <NavDropdown.Item href="#action/3.1">FR</NavDropdown.Item>
+              <NavDropdown title={<><span className='lang'>EN</span></>} id="lang-dropdown">
+                <NavDropdown.Item href="#">FR</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
@@ -295,14 +300,25 @@ const JobApplicants = () => {
       <section className='pt-5'>
         <Container fluid >
           <Row>
-            <Col sm={3}>
+            <Col className={hideSidebar ? "d-none" : "col-md-3"}>
               <div className="row mb-3">
                 <div className="col-7">
-                  <h4>Filters</h4>
+                  {
+                    hideSidebar ? (
+                      ""
+                    ) : (
+                      <button className='btn btn-primary me-2 hide-btn' onClick={() => {
+                        setHideSidebar(true);
+                      }}>
+                        <i class='bx bx-chevrons-left'></i>
+                      </button>
+                    )
+                  }
+                  <h4 className='display-inline'>Filters</h4>
                 </div>
                 <div className="col-5">
                   <Button variant="outline-primary filter-btn" className="outline-primary w-100" onClick={handleResetFilters}>
-                    <i class='bx bx-trash me-2'></i>
+                    <i class='bx bx-trash me-2 text-primary'></i>
                     Clear Filter
                   </Button>
                 </div>
@@ -313,10 +329,9 @@ const JobApplicants = () => {
 
                 <Accordion defaultActiveKey={defaultActiveKeys}>
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>Position</Accordion.Header>
+                    <Accordion.Header><i class='bx bx-network-chart bx-rotate-90 me-2' ></i> Job Title</Accordion.Header>
                     <Accordion.Body>
                       <div>
-
                         {positions.map((item, index) => (
                           <FormGroup controlId={`pos-${index}`} key={index}>
                             <Form.Check
@@ -336,11 +351,11 @@ const JobApplicants = () => {
 
 
                   <Accordion.Item eventKey="1">
-                    <Accordion.Header>Language</Accordion.Header>
+                    <Accordion.Header><i class='bx bx-network-chart me-2' ></i>Known Languages</Accordion.Header>
                     <Accordion.Body>
                       <div>
                         <Select
-                          placeholder="Select.."
+                          placeholder="Select any language.."
                           isSearchable={true}
                           isMulti={true}
                           name='languages'
@@ -355,43 +370,30 @@ const JobApplicants = () => {
 
 
                   <Accordion.Item eventKey="2">
-                    <Accordion.Header>Experience</Accordion.Header>
+                    <Accordion.Header>
+                      <i className="bx bx-rocket me-2"></i>Experience
+                    </Accordion.Header>
                     <Accordion.Body>
                       <div>
-                        <FormGroup controlId="selectAllExperience">
-                          <Form.Check
-                            type="checkbox"
-                            label="Select All"
-                            name="selectAllExperience"
-                            checked={filters.selectAllExperience.length === 2}
-                            onChange={handleFilterChange}
-                          />
-                        </FormGroup>
-                        <FormGroup controlId="experienceUnder5">
-                          <Form.Check
-                            type="checkbox"
-                            label="Under 5 years of experience"
-                            name="experienceUnder5"
-                            checked={filters.experienceUnder5}
-                            onChange={handleFilterChange}
-                          />
-                        </FormGroup>
-                        <FormGroup controlId="experience5Plus">
-                          <Form.Check
-                            type="checkbox"
-                            label="5+ years of experience"
-                            name="experience5Plus"
-                            checked={filters.experience5Plus}
-                            onChange={handleFilterChange}
-                          />
-                        </FormGroup>
+                      {experiencesList.map((item, index) => (
+                          <FormGroup controlId={`exp-${index}`} key={index}>
+                            <Form.Check
+                              type="checkbox"
+                              label={item.name}
+                              name="experience"
+                              value={item.name}
+                              onChange={handleFilterChange}
+                              checked={filters.experience.includes(item.name)}
+                            />
+                          </FormGroup>
+                        ))}
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
 
 
                   <Accordion.Item eventKey="3">
-                    <Accordion.Header>Salary Range</Accordion.Header>
+                    <Accordion.Header><i class='bx bx-dollar-circle me-2' ></i>Salary Range</Accordion.Header>
                     <Accordion.Body>
                       <div>
                         <FormGroup className='row'>
@@ -422,20 +424,65 @@ const JobApplicants = () => {
                 </Accordion>
               </Form>
             </Col>
-            <Col sm={9}>
+            <Col className={hideSidebar ? "col-md-12" : "col-md-9"}>
+              <div className="row">
+                <div className="col-12">
+                  <span>Home</span>
+                  <i class='bx bx-chevron-right px-3'></i>
+                  <span className="text-primary">Candidates</span>
+                </div>
+                <div className="col-12">
+                  {
+                    hideSidebar ? (
+                      <button className='btn btn-primary me-2 hide-btn' onClick={() => {
+                        setHideSidebar(false);
+                      }}>
+
+                        <i class='bx bx-chevrons-right' ></i>
+                      </button>
+                    ) : (
+                      ""
+                    )
+                  }
+
+                  <h2 className='black-text py-3 display-inline'>Candidates</h2>
+                </div>
+              </div>
               <div className="row my-2 search">
                 <div className="col-md-6">
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text id="Search">
+                  <InputGroup className="mb-3 search-box">
+                    <InputGroup.Text id="Search" className='search-inputs'>
                       <i class='bx bx-search'></i>
                     </InputGroup.Text>
-                    <Form.Control
+                    <Form.Control className='search-inputs'
                       placeholder="Search any user.."
                       aria-label="search"
                       aria-describedby="Search"
                       onChange={handleSearchChange}
                     />
                   </InputGroup>
+                </div>
+                <div className="col">
+                  <ButtonGroup aria-label="Basic example" id='filter-btns-group'>
+                    <Button variant="" onClick={() => {
+                      $("button.MuiButton-root:nth-child(2)").click();
+                    }
+                    }>
+                      <span className="material-symbols-outlined me-2">tune</span>
+                      <span>Filter</span>
+                    </Button>
+                    <Button variant="" onClick={() => {
+                      $("button.MuiButton-root:nth-child(3)").click();
+                    }
+                    }>
+                      <span class="material-symbols-outlined me-2">
+                        density_medium
+                      </span>
+                      <span>Density</span>
+                    </Button>
+                  </ButtonGroup>
+
+
                 </div>
               </div>
 

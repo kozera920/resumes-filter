@@ -1,3 +1,11 @@
+ 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+* {
+  color: #7F7F7F;
+  font-weight: 500;
+  font-family: 'Open Sans', sans-serif;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,62 +19,146 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-#profile-dropdown img{
+
+#profile-dropdown img {
   height: 30px;
   width: auto;
   border-radius: 50%;
 }
 
-#profile-dropdown .username{
+#profile-dropdown .username {
   color: #000;
   font-size: 14px;
   padding: 4px 10px;
 }
 
-#lang-dropdown{
-  background-color: rgba(0,0,0,0.3);
+#lang-dropdown {
+  background-color: rgba(150, 150, 150, 0.3);
   border-radius: 20px;
 }
-#lang-dropdown .lang{
+
+#lang-dropdown .lang {
   color: #000;
   font-size: 14px;
-  padding: 4px 10px;
+  padding: 4px 6px;
 }
-.logo{
+
+.logo {
   height: 50px;
   width: auto;
 }
-.menu a{
+
+.menu a {
   padding-left: 15px !important;
   padding-right: 15px !important;
   font-weight: 600;
 }
-.menu a.active{
+
+.menu a.active {
   border: 1px solid #ADAEAF;
   border-radius: 20px;
   color: #6E00FF !important;
 }
-.accordion-button:not(.collapsed) { 
-  background-color: transparent; 
+
+.accordion-button:not(.collapsed) {
+  background-color: transparent;
 }
-.nav-link { 
-  padding: 5px 5px; 
+
+.nav-link {
+  padding: 5px 5px;
 }
+
 .MuiButton-textPrimary {
   color: #6E00FF !important;
 }
-.css-12a83d4-MultiValueRemove{
+
+.css-12a83d4-MultiValueRemove {
   background-color: #6E00FF !important;
-  color:#ffffff;
+  color: #ffffff;
 }
-.circled{
+
+.circled {
   border-radius: 50%;
 }
-.search .input-group-text{
+
+.search .input-group-text {
   background-color: transparent;
 }
-.filter-btn{
+
+.filter-btn {
   border: none;
-border-bottom: 2px solid #6E00FF;
-border-radius: 0px;
+  border-bottom: 2px solid #6E00FF;
+  border-radius: 0px;
+}
+
+.material-symbols-outlined {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.form-check {
+  min-height: 2rem !important;
+  font-size: 0.92rem;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #7F7F7F;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.accordion-body {
+  padding-left: 56px;
+}
+
+.accordion-button::after {
+  background-image: none;
+  font-family: "Material Symbols Outlined";
+  content: "\e5cc";
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-image: none;
+  transform: var(--bs-accordion-btn-icon-transform);
+  font-family: "Material Symbols Outlined";
+  content: "\e5ce";
+}
+
+.MuiDataGrid-toolbarContainer {
+  height: 0px;
+  opacity: 0;
+}
+
+#filter-btns-group {
+  border: 1px solid #ced4da;
+}
+
+.search-inputs {
+  border: none;
+}
+
+.search-box {
+  border: 1px solid #ced4da;
+  border-radius: .375rem;
+}
+
+.text-primary{
+  color: #6E00FF !important;
+}
+.black-text{
+  color: #000000 !important;
+}
+.accordion-item{
+  border: none !important;
+}
+
+.display-inline{
+  display: inline-block;
+}
+.hide-btn{
+  padding: 5px 8px;
+  color: #fff !important; 
+}
+.hide-btn i{ 
+  color: #fff !important; 
 }
