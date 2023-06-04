@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Row, Col, Form, FormGroup } from 'react-bootstrap';
+
+
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
+import { IconButton, makeStyles, Typography } from '@material-ui/core';
+import { FirstPage, LastPage, NavigateBefore, NavigateNext } from '@material-ui/icons';
+
 import Select from 'react-select';
 import Accordion from 'react-bootstrap/Accordion';
 import Container from 'react-bootstrap/Container';
@@ -49,18 +54,41 @@ const JobApplicants = () => {
       experience: 'Internship',
       workType: 'Part-time',
     },
-    // Add more example data here
+    {
+      id: 3,
+      name_mail: { name: 'David Johnson', email: 'david@example.com', image: "" },
+      age: 28,
+      phoneNumber: '+1 (512) 789 23 45',
+      position: 'Backend Developer',
+      language: 'PHP',
+      salary: 90000,
+      experience: 'Associate',
+      workType: 'Full-time',
+    },
+    {
+      id: 4,
+      name_mail: { name: 'Emily Davis', email: 'emily@example.com', image: "" },
+      age: 32,
+      phoneNumber: '+1 (567) 123 45 67',
+      position: 'Graphic Designer',
+      language: 'HTML, CSS',
+      salary: 75000,
+      experience: 'Mid-Senior',
+      workType: 'Full-time',
+    },
+    
+
   ]);
   const experiencesList = [
-   { name:"Entry Level"},
-    {name:"Internship"},
-    {name:"Associate"},
-    {name:"Mid-Senior"},
-    {name:"Contract"},
-   { name:"Director"},
-   { name:"Executive"},
-    {name:"Senior"},
-    {name:"Junior"}];
+    { name: "Entry Level" },
+    { name: "Internship" },
+    { name: "Associate" },
+    { name: "Mid-Senior" },
+    { name: "Contract" },
+    { name: "Director" },
+    { name: "Executive" },
+    { name: "Senior" },
+    { name: "Junior" }];
 
   const [filters, setFilters] = useState(initialFilters);
   const [hideSidebar, setHideSidebar] = useState(false);
@@ -70,14 +98,14 @@ const JobApplicants = () => {
     if (type === 'checkbox') {
       if (name === 'experience') {
         const updatedPositions = checked
-        ? [...filters.experience, value]
-        : filters.experience.filter((experience) => experience !== value);
+          ? [...filters.experience, value]
+          : filters.experience.filter((experience) => experience !== value);
 
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        experience: updatedPositions,
-      }));
-    } else if (name === 'positions') {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          experience: updatedPositions,
+        }));
+      } else if (name === 'positions') {
         // Get the updated positions array based on the checkbox status
         const updatedPositions = checked
           ? [...filters.positions, value]
@@ -210,7 +238,7 @@ const JobApplicants = () => {
       field: 'salary', headerName: 'Salary', width: 230,
       renderCell: (params) => (
         <div style={{ lineHeight: "15px" }}>
-          <span className='black-text' style={{ fontSize: "17px" }}>${number_format(params.value, 2)}/year</span><br />
+          <span className='black-text' style={{ fontSize: "17px" }}>€{number_format(params.value, 2)}/year</span><br />
           <small className='text-secondary'>Average</small>
         </div>
 
@@ -244,6 +272,9 @@ const JobApplicants = () => {
       name: "Backend Developer"
     },
   ];
+
+
+
   const rows = filteredApplicants.map((applicant) => ({
     id: applicant.id,
     name_mail: applicant.name_mail,
@@ -267,6 +298,13 @@ const JobApplicants = () => {
     }));
   };
   const defaultActiveKeys = ['0', '1', '2', '3'];
+
+  const [page, setPage] = useState(0);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="light">
@@ -355,6 +393,7 @@ const JobApplicants = () => {
                     <Accordion.Body>
                       <div>
                         <Select
+                        className='known-language'
                           placeholder="Select any language.."
                           isSearchable={true}
                           isMulti={true}
@@ -375,7 +414,7 @@ const JobApplicants = () => {
                     </Accordion.Header>
                     <Accordion.Body>
                       <div>
-                      {experiencesList.map((item, index) => (
+                        {experiencesList.map((item, index) => (
                           <FormGroup controlId={`exp-${index}`} key={index}>
                             <Form.Check
                               type="checkbox"
@@ -397,6 +436,12 @@ const JobApplicants = () => {
                     <Accordion.Body>
                       <div>
                         <FormGroup className='row'>
+                          <div className="col-12 mb-2">
+                            <Form.Select aria-label="Salary Currency">
+                              <option value={"EUR"}>(€) EUR</option>
+                              <option value={"USD"}>($) USD</option>
+                            </Form.Select>
+                          </div>
                           <div className="col-6">
                             <Form.Control
                               type="number"
@@ -487,17 +532,24 @@ const JobApplicants = () => {
               </div>
 
 
-              <div style={{ height: 900, width: '100%' }}>
+              <div style={{ height: 500, width: '100%' }}>
                 {/* Add GridToolbar component to display search field */}
                 <DataGrid
                   rows={rows}
                   columns={columns}
-                  pageSize={5}
-                  checkboxSelection
+                  pageSize={10}
+                  // checkboxSelection
                   disableSelectionOnClick
                   getRowHeight={() => 'auto'}
                   components={{
                     Toolbar: GridToolbar, // Use GridToolbar component
+                    Pagination: (props) => (
+                      <CustomPagination
+                        {...props}
+                        onPageChange={handlePageChange} // Pass the onPageChange function as a prop
+                        page={page} // Pass the current page as a prop
+                      />
+                    )
                   }}
                   componentsProps={{
                     toolbar: {
@@ -547,5 +599,75 @@ function number_format(number, decimals, dec_point, thousands_point) {
 
   return number;
 }
+const useStyles = makeStyles((theme) => ({
+  paginationContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: theme.spacing(2),
+  },
+  paginationButton: {
+    padding: theme.spacing(1),
+  },
+  currentPage: {
+    fontWeight: 'bold',
+    color: 'blue', // Customize the color of the current page
+  },
+}));
+
+const CustomPagination = (props) => {
+  console.log(props);
+  const classes = useStyles();
+
+  const handleFirstPageButtonClick = () => {
+    props.onPageChange(0);
+  };
+
+  const handleBackButtonClick = () => {
+    props.onPageChange(props.page - 1);
+  };
+
+  const handleNextButtonClick = () => {
+    props.onPageChange(props.page + 1);
+  };
+
+  const handleLastPageButtonClick = () => {
+    props.onPageChange(Math.max(0, Math.ceil(props.rowCount / props.pageSize) - 1));
+  };
+
+  return (
+    <div className={classes.paginationContainer}>
+      <IconButton
+        className={classes.paginationButton+" text-primary fw-bold"}
+        onClick={handleBackButtonClick}
+        disabled={props.page === 0}
+      >
+        <NavigateBefore /> <span style={{fontSize:"13px"}}>Previous</span>
+      </IconButton>
+      <span className='mx-4'>
+         {Array.from({ length: Math.ceil(props.rowCount / props.pageSize) }, (_, index) => (
+        <Typography
+          key={index}
+          variant="body1"
+          className={props.page === index ? `${classes.paginationButton} ${classes.currentPage}` : classes.paginationButton}
+          onClick={() => props.onPageChange(index)}
+        >
+          {index + 1}
+        </Typography>
+      ))}
+      <button className='btn text-secondary'>1</button>
+      </span>
+     
+      <IconButton
+        className={classes.paginationButton+" text-primary fw-bold"}
+        onClick={handleNextButtonClick}
+        disabled={props.page >= Math.ceil(props.rowCount / props.pageSize) - 1}
+      >
+        <span style={{fontSize:"13px"}}>Next</span>
+        <NavigateNext />
+      </IconButton>
+    </div>
+  );
+};
 
 export default JobApplicants;

@@ -145,6 +145,13 @@ code {
 .text-primary{
   color: #6E00FF !important;
 }
+.text-primary svg path{
+  color: #6E00FF !important;
+}
+.text-primary span{
+  color: #6E00FF !important;
+}
+
 .black-text{
   color: #000000 !important;
 }
@@ -161,4 +168,25 @@ code {
 }
 .hide-btn i{ 
   color: #fff !important; 
+}
+
+.MuiDataGrid-root .MuiDataGrid-footerContainer { 
+  justify-content: center !important;
+}
+
+.accordion-button:not(.collapsed) { 
+  box-shadow: none;
+}
+
+.form-select { 
+  border-radius: 1rem; 
+}
+.form-control { 
+  border-radius: 1rem; 
+}
+
+.css-13cymwt-control{ 
+    border-radius: 1rem !important;
+    border: 1px solid #7F7F7F;
+    overflow: hidden; 
 }
