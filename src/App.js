@@ -510,14 +510,14 @@ const JobApplicants = () => {
                 <div className="col">
                   <ButtonGroup aria-label="Basic example" id='filter-btns-group'>
                     <Button variant="" onClick={() => {
-                      $("button.MuiButton-root:nth-child(2)").click();
+                      $("button.MuiButton-root").eq(1).click();
                     }
                     }>
                       <span className="material-symbols-outlined me-2">tune</span>
                       <span>Filter</span>
                     </Button>
                     <Button variant="" onClick={() => {
-                      $("button.MuiButton-root:nth-child(3)").click();
+                      $("button.MuiButton-root").eq(2).click();
                     }
                     }>
                       <span class="material-symbols-outlined me-2">
@@ -525,8 +525,18 @@ const JobApplicants = () => {
                       </span>
                       <span>Density</span>
                     </Button>
-                  </ButtonGroup>
 
+                    
+                  </ButtonGroup>
+                  <Button className='column-button mx-2' variant="" onClick={() => {
+                      $("button.MuiButton-root").eq(0).click();
+                    }
+                    }>
+                      <span class="material-symbols-outlined me-2">
+                      view_column
+                      </span>
+                      <span>Column</span>
+                    </Button>
 
                 </div>
               </div>
@@ -636,6 +646,7 @@ const CustomPagination = (props) => {
   };
 
   return (
+    <div>
     <div className={classes.paginationContainer}>
       <IconButton
         className={classes.paginationButton+" text-primary fw-bold"}
@@ -655,7 +666,7 @@ const CustomPagination = (props) => {
           {index + 1}
         </Typography>
       ))}
-      <button className='btn text-secondary'>1</button>
+      <button className='btn btn-primary'>1</button>
       </span>
      
       <IconButton
@@ -666,6 +677,9 @@ const CustomPagination = (props) => {
         <span style={{fontSize:"13px"}}>Next</span>
         <NavigateNext />
       </IconButton>
+      
+    </div>
+    <div className='my-3' style={{textAlign:"center"}}>Page 1 of 1</div>
     </div>
   );
 };

@@ -190,3 +190,8 @@ code {
     border: 1px solid #7F7F7F;
     overflow: hidden; 
 }
+
+.column-button{ 
+    border: 1px solid #ced4da; 
+    border-radius: .375rem; 
+}
