@@ -317,7 +317,7 @@ const JobApplicants = () => {
             <Nav className="me-auto menu">
               <Nav.Link href="#" active="true">Homepage</Nav.Link>
               <Nav.Link href="#">Candidates</Nav.Link>
-              <Nav.Link href="#">Posistions</Nav.Link>
+              <Nav.Link href="#">Positions</Nav.Link>
             </Nav>
             <Nav>
               <NavDropdown title={<><img src={avatar} alt='avatar' /> <span className='username'>John Doe</span></>} id="profile-dropdown">
